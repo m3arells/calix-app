@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#090e18">
+<meta name="description" content="CALIX — Calisthenics, workout tracking e day planning">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="styles.css">
+<title>CALIX</title>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="#"><span class="brand-mark">C</span> CALIX</a>
+  <span class="status"><i></i> PERSONAL PERFORMANCE</span>
+</header>
+<main>
+<section class="page active" id="page-home">
+  <div class="eyebrow">YOUR TRAINING SPACE</div>
+  <h1>Build your<br><span>next level.</span></h1>
+  <p class="muted intro">Allenati con metodo. Organizza la giornata. Tieni traccia dei progressi.</p>
+  <div class="hero">
+    <div><div class="eyebrow">WORKOUT COMPLETATI</div><strong id="home-workouts">0</strong><small>Sessioni registrate</small></div>
+    <div class="hero-mark">✦</div>
+  </div>
+  <div class="section-title"><h2>Panoramica</h2></div>
+  <div class="stats">
+    <article><small>Minuti allenati</small><b id="home-minutes">0</b></article>
+    <article><small>Record personali</small><b id="home-prs">0</b></article>
+  </div>
+  <div class="section-title"><h2>Accesso rapido</h2></div>
+  <div class="quick">
+    <button data-go="workout"><span>＋</span><b>Registra workout</b><small>Nuova sessione</small></button>
+    <button data-go="day"><span>✧</span><b>Day Planning</b><small>Organizza la giornata</small></button>
+  </div>
+  <div class="section-title"><h2>Ultimi allenamenti</h2></div>
+  <div id="recent-workouts" class="empty">Ancora nessun allenamento registrato.</div>
+</section>
+
+<section class="page" id="page-workout">
+  <div class="eyebrow">TRAINING LOG</div><h1>Registra il<br><span>workout.</span></h1>
+  <form id="workout-form" class="panel">
+    <label>Nome sessione<input id="w-name" required maxlength="50" placeholder="Es. Upper body strength"></label>
+    <div class="two">
+      <label>Durata (minuti)<input id="w-duration" type="number" min="1" max="300" value="45" required></label>
+      <label>Data<input id="w-date" type="date" required></label>
+    </div>
+    <label>Esercizio principale<input id="w-exercise" required list="exercise-options" placeholder="Es. Pull-up"></label>
+    <datalist id="exercise-options"><option>Pull-up</option><option>Push-up</option><option>Dips</option><option>Squat</option><option>L-sit</option><option>Handstand</option></datalist>
+    <div class="two">
+      <label>Serie<input id="w-sets" type="number" min="1" max="30" value="3"></label>
+      <label>Ripetizioni / secondi<input id="w-reps" type="number" min="1" max="999" value="8"></label>
+    </div>
+    <label>Note<textarea id="w-notes" rows="2" placeholder="Note facoltative"></textarea></label>
+    <button class="primary">＋ Salva allenamento</button>
+  </form>
+  <div class="section-title"><h2>Storico</h2></div><div id="workout-history" class="stack empty">Nessuna sessione per ora.</div>
+</section>
+
+<section class="page" id="page-skills">
+  <div class="eyebrow">SKILL TREE</div><h1>Skill<br><span>progression.</span></h1>
+  <p class="muted intro">Scegli il livello che stai allenando. Avanza solo quando controlli bene la progressione.</p>
+  <div id="skill-list" class="stack"></div>
+</section>
+
+<section class="page" id="page-library">
+  <div class="eyebrow">EXERCISE DATABASE</div><h1>Exercise<br><span>library.</span></h1>
+  <input id="exercise-search" class="search" placeholder="⌕ Cerca esercizio...">
+  <div class="filters" id="exercise-filters">
+    <button class="filter active" data-filter="Tutti">Tutti</button><button class="filter" data-filter="Spinta">Spinta</button><button class="filter" data-filter="Trazione">Trazione</button><button class="filter" data-filter="Core">Core</button><button class="filter" data-filter="Gambe">Gambe</button><button class="filter" data-filter="Skill">Skill</button>
+  </div>
+  <div id="exercise-library" class="stack"></div>
+</section>
+
+<section class="page" id="page-progress">
+  <div class="eyebrow">PERFORMANCE</div><h1>Your<br><span>progress.</span></h1>
+  <div class="panel">
+    <h2>Obiettivo personale</h2>
+    <form id="goal-form">
+      <label>Obiettivo<input id="goal-name" maxlength="60" placeholder="Es. 5 pull-up puliti"></label>
+      <div class="two"><label>Target<input id="goal-target" type="number" min="1" value="5"></label><label>Unità<input id="goal-unit" value="ripetizioni"></label></div>
+      <button class="primary">Salva obiettivo</button>
+    </form>
+    <p id="goal-current" class="muted small">Nessun obiettivo impostato.</p>
+  </div>
+  <div class="section-title"><h2>Record personali</h2></div>
+  <form id="pr-form" class="panel">
+    <label>Esercizio<input id="pr-exercise" required placeholder="Es. Pull-up"></label>
+    <div class="two"><label>Valore<input id="pr-value" type="number" min="0.1" step="0.1" required></label><label>Unità<input id="pr-unit" value="ripetizioni"></label></div>
+    <button class="secondary">＋ Aggiungi record</button>
+  </form>
+  <div id="pr-list" class="stack empty">Nessun record salvato.</div>
+  <div class="section-title"><h2>Sessioni recenti</h2></div><div id="progress-chart" class="chart panel"></div>
+</section>
+
+<section class="page" id="page-day">
+  <div class="eyebrow">AI DAILY ORGANIZER</div><h1>Plan your<br><span>day.</span></h1>
+  <p class="muted intro">Racconta cosa devi fare: crea una bozza di giornata e trasformala in checklist.</p>
+  <div class="panel day-input">
+    <label>Data del planning<input type="date" id="day-date"></label>
+    <label>Descrivi la tua giornata<textarea id="day-prompt" rows="4" placeholder="Esempio: domani sveglia alle 7, scuola fino alle 14, pranzo, allenamento alle 17 per un'ora, studio di matematica e poi relax..."></textarea></label>
+    <div class="voice-row">
+      <button type="button" class="secondary" id="voice-btn">🎙️ Parla</button>
+      <span id="voice-status" class="muted small">Puoi anche scrivere il comando.</span>
+    </div>
+    <button type="button" class="primary" id="generate-day">✧ Crea il mio Day Planning</button>
+    <p class="muted tiny">La versione iniziale organizza il testo sul dispositivo con regole locali. L'AI generativa completa richiederà in seguito un collegamento sicuro a un servizio AI.</p>
+  </div>
+  <div class="section-title"><h2>La tua checklist</h2><button id="clear-day" class="text-btn">Svuota</button></div>
+  <div id="day-checklist" class="stack empty">Nessun planning creato. Scrivi o detta le tue attività qui sopra.</div>
+  <div class="section-title"><h2>Aggiungi attività</h2></div>
+  <form id="add-task-form" class="panel">
+    <label>Attività<input id="task-title" required placeholder="Es. Preparare lo zaino"></label>
+    <div class="two"><label>Orario<input id="task-time" type="time"></label><label>Durata (min)<input id="task-duration" type="number" min="5" max="600" value="30"></label></div>
+    <button class="secondary">＋ Aggiungi alla checklist</button>
+  </form>
+</section>
+</main>
+
+<div class="timer-dock">
+  <div><small>REST TIMER</small><b id="timer-display">01:30</b></div>
+  <div class="timer-actions"><button id="timer-start">Avvia</button><button id="timer-reset" class="ghost">Reset</button></div>
+</div>
+<nav class="bottom-nav">
+  <button class="nav-item active" data-page="home"><span>⌂</span><small>Home</small></button>
+  <button class="nav-item" data-page="workout"><span>＋</span><small>Workout</small></button>
+  <button class="nav-item" data-page="skills"><span>◇</span><small>Skills</small></button>
+  <button class="nav-item" data-page="library"><span>▤</span><small>Library</small></button>
+  <button class="nav-item" data-page="progress"><span>↗</span><small>Progressi</small></button>
+  <button class="nav-item" data-page="day"><span>✧</span><small>Day Plan</small></button>
+</nav>
+<div id="toast" class="toast" role="status"></div>
+<script src="app.js"></script>
+</body>
+</html>
