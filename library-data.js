@@ -109,6 +109,6 @@ const CALIX_EXERCISES = [
 ];
 
 // Controllo dati: ogni esercizio deve avere 9 campi.
-if (CALIX_EXERCISES.some(ex => ex.length !== 9)) {
+if (CALIX_EXERCISES.some(ex => ex.length !== 10)) {
   console.error("CALIX Library: esercizio con campi mancanti.");
 }
