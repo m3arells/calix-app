@@ -91,8 +91,18 @@
     <button class="secondary">＋ Aggiungi record</button>
   </form>
   <div id="pr-list" class="stack empty">Nessun record salvato.</div>
-  <div class="section-title"><h2>Sessioni recenti</h2></div><div id="progress-chart" class="chart panel"></div>
-</section>
+  <div class="section-title"><h2>Sessioni recenti</h2></div>
+<div id="progress-chart" class="chart panel"></div>
+
+<div class="section-title"><h2>Backup & Restore</h2></div>
+<div class="panel">
+  <p class="muted small">Proteggi i tuoi progressi e recuperali quando cambi dispositivo.</p>
+  <button type="button" class="primary" id="backup-export">↓ Esporta backup</button>
+  <button type="button" class="secondary" id="backup-import">↑ Ripristina backup</button>
+  <input type="file" id="backup-file" accept=".json,application/json" hidden>
+  <p id="backup-status" class="muted small" role="status"></p>
+  <button type="button" class="secondary" id="backup-reload" hidden>Ricarica CALIX</button>
+</div>
 
 <section class="page" id="page-day">
   <div class="eyebrow">AI DAILY ORGANIZER</div><h1>Plan your<br><span>day.</span></h1>
