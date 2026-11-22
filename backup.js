@@ -140,22 +140,25 @@
     }
   }
 
-  document.addEventListener('DOMContentLoaded', () => {
-    $('backup-export')?.addEventListener(
-      'click',
-      exportBackup
-    );
+  function initBackup() {
+  $('backup-export')?.addEventListener('click', exportBackup);
 
-    $('backup-import')?.addEventListener('click', () => {
-      $('backup-file')?.click();
-    });
-
-    $('backup-file')?.addEventListener('change', event => {
-      importBackup(event.target.files?.[0]);
-    });
-
-    $('backup-reload')?.addEventListener('click', () => {
-      location.reload();
-    });
+  $('backup-import')?.addEventListener('click', () => {
+    $('backup-file')?.click();
   });
+
+  $('backup-file')?.addEventListener('change', event => {
+    importBackup(event.target.files?.[0]);
+  });
+
+  $('backup-reload')?.addEventListener('click', () => {
+    location.reload();
+  });
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initBackup);
+} else {
+  initBackup();
+}
 })();
