@@ -43,6 +43,8 @@ function renderLibrary() {
       <p><b>Progressione successiva:</b> ${esc(x[9])}</p>
     </article>
   `).join('') || '<div class="empty">Nessun esercizio trovato.</div>';
+}
+
 $$('[data-filter]').forEach(b=>b.addEventListener('click',()=>{filter=b.dataset.filter;$$('[data-filter]').forEach(x=>x.classList.toggle('active',x===b));renderLibrary()}));$('#exercise-search').addEventListener('input',renderLibrary);
 $('#goal-form').addEventListener('submit',e=>{e.preventDefault();goal={name:$('#goal-name').value,target:+$('#goal-target').value,unit:$('#goal-unit').value};save('goal',goal);renderGoal();toast('Obiettivo salvato')});
 function renderGoal(){$('#goal-current').textContent=goal?`${goal.name} · Target: ${goal.target} ${goal.unit}`:'Nessun obiettivo impostato.';if(goal){$('#goal-name').value=goal.name;$('#goal-target').value=goal.target;$('#goal-unit').value=goal.unit}}
