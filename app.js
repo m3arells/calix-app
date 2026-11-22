@@ -19,8 +19,31 @@ function renderWorkouts(){
 $('#workout-form').addEventListener('submit',e=>{e.preventDefault();workouts.push({name:$('#w-name').value.trim(),duration:+$('#w-duration').value,date:$('#w-date').value,exercise:$('#w-exercise').value.trim(),sets:+$('#w-sets').value,reps:+$('#w-reps').value,notes:$('#w-notes').value.trim()});save('workouts',workouts);e.target.reset();$('#w-date').value=today();$('#w-duration').value=45;$('#w-sets').value=3;$('#w-reps').value=8;renderWorkouts();toast('Workout salvato!')});
 const skillInfo=[['Handstand',['Wall hold','Freestanding balance','Consistent hold','Handstand push-up progression']],['Planche',['Frog stand','Tuck planche','Advanced tuck','Straddle planche']],['Front Lever',['Tuck','Advanced tuck','One-leg','Straddle']],['Muscle Up',['Explosive pull-up','Chest-to-bar','Transition drill','Strict muscle-up']],['L-sit',['Tuck support','One-leg L-sit','Full L-sit','V-sit preparation']]];
 function renderSkills(){$('#skill-list').innerHTML=skillInfo.map(([name,levels])=>{let n=skills[name]||0;return `<article class="card"><div class="card-top"><b>${name}</b><span class="tag">Level ${n+1}/${levels.length}</span></div><p>Progressione attuale: ${levels[n]}</p><select class="skill-select" data-skill="${name}">${levels.map((l,i)=>`<option value="${i}" ${i===n?'selected':''}>${i+1}. ${l}</option>`).join('')}</select></article>`}).join('');$$('[data-skill]').forEach(s=>s.addEventListener('change',()=>{skills[s.dataset.skill]=+s.value;save('skills',skills);renderSkills();toast('Progressione aggiornata')}))}
-const exercises=[['Push-up','Spinta','Petto, tricipiti e core'],['Dips','Spinta','Spinta su parallele'],['Pike push-up','Spinta','Spalle e controllo'],['Pull-up','Trazione','Dorsali e bicipiti'],['Chin-up','Trazione','Trazione presa supina'],['Australian row','Trazione','Trazione orizzontale'],['L-sit','Core','Compressione e tenuta'],['Hollow body hold','Core','Stabilità del tronco'],['Squat','Gambe','Forza generale'],['Bulgarian split squat','Gambe','Forza unilaterale'],['Handstand','Skill','Equilibrio in verticale'],['Planche lean','Skill','Preparazione planche'],['Front lever tuck','Skill','Tenuta front lever']];
-function renderLibrary(){const q=$('#exercise-search').value.toLowerCase();const arr=exercises.filter(x=>(filter==='Tutti'||x[1]===filter)&&x.join(' ').toLowerCase().includes(q));$('#exercise-library').innerHTML=arr.map(x=>`<article class="card"><div class="card-top"><b>${x[0]}</b><span class="tag">${x[1]}</span></div><p>${x[2]}</p></article>`).join('')||'<div class="empty">Nessun esercizio trovato.</div>'}
+function renderLibrary() {
+  const q = $('#exercise-search').value.toLowerCase();
+
+  const arr = CALIX_EXERCISES.filter(x =>
+    (filter === 'Tutti' || x[1] === filter) &&
+    x.join(' ').toLowerCase().includes(q)
+  );
+
+  $('#exercise-library').innerHTML = arr.map(x => `
+    <article class="card">
+      <div class="card-top">
+        <b>${esc(x[0])}</b>
+        <span class="tag">${esc(x[1])}</span>
+      </div>
+      <p><b>Difficoltà:</b> ${esc(x[2])}</p>
+      <p><b>Muscoli:</b> ${esc(x[3])}</p>
+      <p><b>Attrezzatura:</b> ${esc(x[4])}</p>
+      <p>${esc(x[5])}</p>
+      <p><b>Serie e ripetizioni:</b> ${esc(x[6])}</p>
+      <p><b>Tecnica:</b> ${esc(x[7])}</p>
+      <p><b>Progressione precedente:</b> ${esc(x[8])}</p>
+      <p><b>Progressione successiva:</b> ${esc(x[9])}</p>
+    </article>
+  `).join('') || '<div class="empty">Nessun esercizio trovato.</div>';
+}{const q=$('#exercise-search').value.toLowerCase();const arr=exercises.filter(x=>(filter==='Tutti'||x[1]===filter)&&x.join(' ').toLowerCase().includes(q));$('#exercise-library').innerHTML=arr.map(x=>`<article class="card"><div class="card-top"><b>${x[0]}</b><span class="tag">${x[1]}</span></div><p>${x[2]}</p></article>`).join('')||'<div class="empty">Nessun esercizio trovato.</div>'}
 $$('[data-filter]').forEach(b=>b.addEventListener('click',()=>{filter=b.dataset.filter;$$('[data-filter]').forEach(x=>x.classList.toggle('active',x===b));renderLibrary()}));$('#exercise-search').addEventListener('input',renderLibrary);
 $('#goal-form').addEventListener('submit',e=>{e.preventDefault();goal={name:$('#goal-name').value,target:+$('#goal-target').value,unit:$('#goal-unit').value};save('goal',goal);renderGoal();toast('Obiettivo salvato')});
 function renderGoal(){$('#goal-current').textContent=goal?`${goal.name} · Target: ${goal.target} ${goal.unit}`:'Nessun obiettivo impostato.';if(goal){$('#goal-name').value=goal.name;$('#goal-target').value=goal.target;$('#goal-unit').value=goal.unit}}
